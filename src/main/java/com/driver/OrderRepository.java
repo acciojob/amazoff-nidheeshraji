@@ -11,7 +11,7 @@ public class OrderRepository {
     HashMap<String,Order>order_DB=new HashMap<>();
     HashMap<String,DeliveryPartner>Partner_DB=new HashMap<>();
     HashMap<String, ArrayList<String>>order_partner_DB=new HashMap<>();
-
+    // delivery parnter,order id;
     ArrayList<String>OrderList=new ArrayList<>();
 
 
@@ -28,21 +28,26 @@ public class OrderRepository {
 
     }
     public void addOrderPartnerPair(String orderId, String partnerId) {
-       if(!order_partner_DB.containsKey(orderId))
+
+       if(!order_partner_DB.containsKey(partnerId))
        {
            ArrayList<String> list=new ArrayList<>();
            list.add(orderId);
            order_partner_DB.put(partnerId,list);
+           DeliveryPartner partner = Partner_DB.get(partnerId);
+           partner.setNumberOfOrders(1);
 
        }
        else {
            ArrayList<String> list = order_partner_DB.get(partnerId);
            list.add(orderId);
            order_partner_DB.put(partnerId, list);
-           int n = list.size();
+            int n = list.size();
+
            DeliveryPartner partner = Partner_DB.get(partnerId);
            partner.setNumberOfOrders(n);
        }
+
         OrderList.add(orderId);
     }
 
